@@ -1,3 +1,5 @@
+import acm.graphics.GRect;
+
 import java.util.Arrays;
 
 public class Board {
@@ -8,6 +10,11 @@ public class Board {
 
     public Board() {
         board = new int[HEIGHT][WIDTH];
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                board[i][j] = -1;
+            }
+        }
     }
 
     public String toString() {
@@ -36,17 +43,14 @@ public class Board {
 
     /**
      * Drop a player's chip into a certain column, at the lowest possible slot.
-     * 
+     *
      * @param col index of column to drop piece into
      * @param player player id
      */
-    public void addPiece(int col, int player) throws FullColumnError {
-        if (isColumnFull(col)) {
-            throw new FullColumnError(col);
-        }
+    public void addPiece(int col, PlayerColor player) {
         for (int i = HEIGHT - 1; i > -1; i--) {
-            if (board[i][col] == 0) {
-                board[i][col] = player;
+            if (board[i][col] == -1) {
+                board[i][col] = player.ordinal();
                 return;
             }
         }
@@ -65,5 +69,13 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public int getNumRows() {
+        return board.length;
+    }
+
+    public int getNumCols() {
+        return board[0].length;
     }
 }

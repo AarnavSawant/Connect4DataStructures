@@ -1,2 +1,4 @@
-package PACKAGE_NAME;public enum PlayerColor {
+public enum PlayerColor {
+    RED,
+    YELLOW,
 }
