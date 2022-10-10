@@ -1,19 +1,26 @@
+import acm.graphics.GRect;
+
 import java.util.Arrays;
 
 public class Board {
     public static final int WIDTH = 7;
     public static final int HEIGHT = 6;
 
-    private int[][] board;
+    private TokenColor[][] board;
 
     public Board() {
-        board = new int[HEIGHT][WIDTH];
+        board = new TokenColor[HEIGHT][WIDTH];
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
+                board[i][j] = TokenColor.NONE;
+            }
+        }
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int[] row : board) {
-            for (int col : row) {
+        for (TokenColor[] row : board) {
+            for (TokenColor col : row) {
                 sb.append(col).append(" ");
             }
             sb.append("\n");
@@ -24,10 +31,10 @@ public class Board {
     /**
      * Retrieve a deep copy of the underlying 2D array representing the board.
      * 
-     * @return int[][] representing the board
+     * @return TokenColor[][] representing the board
      */
-    public int[][] getBoard() {
-        int[][] copy = new int[HEIGHT][WIDTH];
+    public TokenColor[][] getBoard() {
+        TokenColor[][] copy = new TokenColor[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; i++) {
             copy[i] = Arrays.copyOf(board[i], WIDTH);
         }
@@ -36,34 +43,43 @@ public class Board {
 
     /**
      * Drop a player's chip into a certain column, at the lowest possible slot.
-     * 
+     *
      * @param col index of column to drop piece into
      * @param player Player object representing the player dropping the piece
      */
-    public void addPiece(int col, Player player) throws FullColumnError {
-        if (isColumnFull(col)) {
-            throw new FullColumnError(col);
-        }
+    public void addPiece(int col, Player player) {
         for (int i = HEIGHT - 1; i > -1; i--) {
-            if (board[i][col] == 0) {
-                board[i][col] = player.getId();
+            if (board[i][col] == TokenColor.NONE) {
+                board[i][col] = player.getColor();
                 return;
             }
         }
     }
 
     public boolean isColumnFull(int col) {
-        return board[0][col] != 0;
+        return board[0][col] != TokenColor.NONE;
     }
 
     public boolean isFull() {
-        for (int[] row : board) {
-            for (int col : row) {
-                if (col == 0) {
+        for (TokenColor[] row : board) {
+            for (TokenColor col : row) {
+                if (col == TokenColor.NONE) {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    public int[][] checkWinner() {
+        return new int[0][0];
+    }
+
+    public int getNumRows() {
+        return board.length;
+    }
+
+    public int getNumCols() {
+        return board[0].length;
     }
 }

@@ -9,13 +9,20 @@ public class Connect4Game {
         turns = 0;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public Player whoseTurn() {
         return players[turns % 2];
     }
 
-    public boolean playTurn() throws FullColumnError {
-        Player player = whoseTurn();
+    public GameStatus playTurn(Player player,) throws FullColumnError {
         board.addPiece(player.chooseColumn(), player);
-        return false;
+        return GameStatus.ONGOING;
+    }
+
+    public int[][] getWinningIndices() {
+        return null;
     }
 }
