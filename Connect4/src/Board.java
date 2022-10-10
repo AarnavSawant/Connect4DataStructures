@@ -38,15 +38,15 @@ public class Board {
      * Drop a player's chip into a certain column, at the lowest possible slot.
      * 
      * @param col index of column to drop piece into
-     * @param player player id
+     * @param player Player object representing the player dropping the piece
      */
-    public void addPiece(int col, int player) throws FullColumnError {
+    public void addPiece(int col, Player player) throws FullColumnError {
         if (isColumnFull(col)) {
             throw new FullColumnError(col);
         }
         for (int i = HEIGHT - 1; i > -1; i--) {
             if (board[i][col] == 0) {
-                board[i][col] = player;
+                board[i][col] = player.getId();
                 return;
             }
         }

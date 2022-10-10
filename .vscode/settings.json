@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\Manan.Singh23\\OneDrive - Bellarmine College Preparatory\\Documents\\Data Structures\\acm.jar"
+    ]
+}
