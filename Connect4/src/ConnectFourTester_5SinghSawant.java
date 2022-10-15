@@ -107,14 +107,15 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
         board.setFillColor(Color.BLUE);
         board.setFilled(true);
         add(board);
-        mBorderXValues.clear();
         int currentX = BOARD_X + CIRCLE_SIZE;
         int currentY = BOARD_Y + CIRCLE_SIZE;
         for (int i = 0; i < mGame.getBoard().getNumRows(); i+=1) {
             for (int j = 0; j < mGame.getBoard().getNumCols(); j+=1) {
-                if (i == 0) {
-                    double imaginaryBorderXValue = currentX + BORDER_SCALING_FACTOR * CIRCLE_SIZE;
-                    mBorderXValues.add(imaginaryBorderXValue);
+                if (mBorderXValues.size() < mGame.getBoard().getNumCols()) {
+                    if (i == 0) {
+                        double imaginaryBorderXValue = currentX + BORDER_SCALING_FACTOR * CIRCLE_SIZE;
+                        mBorderXValues.add(imaginaryBorderXValue);
+                    }
                 }
                 GOval circle = new GOval(currentX, currentY, CIRCLE_SIZE, CIRCLE_SIZE);
                 if (mGame.getBoard().getBoard()[i][j] == TokenColor.RED) {
