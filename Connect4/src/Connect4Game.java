@@ -14,11 +14,12 @@ public class Connect4Game {
     }
 
     public Player whoseTurn() {
-        return players[turns % 2];
+        return players[turns++ % 2];
     }
 
-    public GameStatus playTurn(Player player,) throws FullColumnError {
+    public GameStatus playTurn(Player player) throws FullColumnError {
         board.addPiece(player.chooseColumn(), player);
+        System.out.println("TURNS, " + turns);
         return GameStatus.ONGOING;
     }
 
