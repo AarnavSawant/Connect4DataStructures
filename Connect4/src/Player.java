@@ -8,6 +8,10 @@ abstract class Player {
         this.color = color;
     }
 
+    public String toString() {
+        return getClass().getName() + "[name: " + name + ", color: " + color + ", numWins: " + numWins + "]";
+    }
+
     public TokenColor getColor() {
         return color;
     }

@@ -138,6 +138,10 @@ public class Board {
         return GameStatus.ONGOING;
     }
 
+    public TokenColor winningColor() {
+        return winner;
+    }
+
     public int[][] getWinningIndices() {
         return winningIndices;
     }

@@ -34,8 +34,17 @@ public class Connect4Game {
     }
 
     public Player getWinner() throws NoWinnerException{
-        if (winner == null) {
+        if (status == GameStatus.ONGOING) {
             throw new NoWinnerException();
+        }
+        if (winner == null) {
+            TokenColor color = board.winningColor();
+            for (Player player : players) {
+                if (player.getColor() == color) {
+                    winner = player;
+                    break;
+                }
+            }
         }
         return winner;
     }

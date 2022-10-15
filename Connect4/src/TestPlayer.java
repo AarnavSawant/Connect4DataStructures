@@ -5,7 +5,11 @@ class TestPlayer extends Player{
         super(color);
     }
 
+    private int randomColumn() {
+        return (int) (Math.random() * 7);
+    }
+
     public int chooseColumn() {
-        return (int) (Math.random() * 8 - 1);
+        return col++;
     }
 }

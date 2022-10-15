@@ -83,7 +83,7 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
 
 //        while (status == GameStatus.ONGOING) {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20 && mGame.getStatus() == GameStatus.ONGOING; i++) {
             mCurrentPlayer = mGame.whoseTurn();
             System.out.println(mCurrentPlayer.getColor());
             try {
@@ -93,6 +93,12 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
             } catch (FullColumnError e) {
                 throw new RuntimeException(e);
             }
+        }
+        System.out.println(status);
+        try {
+            System.out.println(mGame.getWinner());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
 //        }

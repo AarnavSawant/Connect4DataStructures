@@ -14,7 +14,11 @@ public class HumanPlayer extends Player {
         double mouseClickX = -1;
         do {
             mouseClickX = graphicsProgram.getMouseClickX();
-            System.out.println(mouseClickX);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             column = graphicsProgram.getColumnIndexFromMouseEvent(graphicsProgram.getMouseClickX());
         } while (column == -1 || mouseClickX == -1);
         System.out.println(column);
