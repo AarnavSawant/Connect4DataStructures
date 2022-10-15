@@ -27,6 +27,7 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
 
         TestPlayer redPlayer = new TestPlayer(TokenColor.RED);
         TestPlayer yellowPlayer = new TestPlayer(TokenColor.YELLOW);
+        try {
         mBoard.addPiece(3, redPlayer);
         mBoard.addPiece(3, redPlayer);
         mBoard.addPiece(3, redPlayer);
@@ -36,6 +37,9 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
         mBoard.addPiece(4, yellowPlayer);
         mBoard.addPiece(4, yellowPlayer);
         mBoard.addPiece(5, yellowPlayer);
+        } catch (FullColumnError e) {
+            System.out.println(e);
+        }
         add(board);
         int currentX = BOARD_X + CIRCLE_SIZE;
         int currentY = BOARD_Y + CIRCLE_SIZE;

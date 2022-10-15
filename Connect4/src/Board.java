@@ -1,5 +1,3 @@
-import acm.graphics.GRect;
-
 import java.util.Arrays;
 
 public class Board {
@@ -7,6 +5,8 @@ public class Board {
     public static final int HEIGHT = 6;
 
     private TokenColor[][] board;
+    private int[][] winningIndices;
+    private TokenColor winner;
 
     public Board() {
         board = new TokenColor[HEIGHT][WIDTH];
@@ -21,7 +21,7 @@ public class Board {
         StringBuilder sb = new StringBuilder();
         for (TokenColor[] row : board) {
             for (TokenColor col : row) {
-                sb.append(col).append(" ");
+                sb.append(col.ordinal()).append(" ");
             }
             sb.append("\n");
         }
@@ -46,8 +46,13 @@ public class Board {
      *
      * @param col index of column to drop piece into
      * @param player Player object representing the player dropping the piece
+     * 
+     * @throws FullColumnError if the column is already full
      */
-    public void addPiece(int col, Player player) {
+    public void addPiece(int col, Player player) throws FullColumnError {
+        if (isColumnFull(col)) {
+            throw new FullColumnError(col);
+        }
         for (int i = HEIGHT - 1; i > -1; i--) {
             if (board[i][col] == TokenColor.NONE) {
                 board[i][col] = player.getColor();
@@ -71,8 +76,70 @@ public class Board {
         return true;
     }
 
-    public int[][] checkWinner() {
-        return new int[0][0];
+    private boolean checkHorizontalWin() {
+        for (int x = 0; x < WIDTH - 3; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                TokenColor[] row = board[y];
+                TokenColor color = row[x];
+                if (color != TokenColor.NONE
+                        && color == row[x + 1]
+                        && color == row[x + 2]
+                        && color == row[x + 3]) {
+                    winningIndices = new int[][] {{y, x}, {y, x + 1}, {y, x + 2}, {y, x + 3}};
+                    winner = color;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkVerticalWin() {
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT - 3; y++) {
+                TokenColor color = board[y][x];
+                if (color != TokenColor.NONE
+                        && color == board[y + 1][x]
+                        && color == board[y + 2][x]
+                        && color == board[y + 3][x]) {
+                    winningIndices = new int[][] {{y, x}, {y + 1, x}, {y + 2, x}, {y + 3, x}};
+                    winner = color;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean checkDiagonalWin() {
+        for (int x = 0; x < WIDTH - 3; x++) {
+            for (int y = 0; y < HEIGHT - 3; y++) {
+                TokenColor color = board[y][x];
+                if (color != TokenColor.NONE
+                        && color == board[y + 1][x + 1]
+                        && color == board[y + 2][x + 2]
+                        && color == board[y + 3][x + 3]) {
+                    winningIndices = new int[][] {{y, x}, {y + 1, x + 1}, {y + 2, x + 2}, {y + 3, x + 3}};
+                    winner = color;
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public GameStatus checkWinner() {
+        if (checkHorizontalWin() || checkVerticalWin() || checkDiagonalWin()) {
+            return GameStatus.WIN;
+        }
+        if (isFull()) {
+            return GameStatus.DRAW;
+        }
+        return GameStatus.ONGOING;
+    }
+
+    public int[][] getWinningIndices() {
+        return winningIndices;
     }
 
     public int getNumRows() {

@@ -1,3 +1,3 @@
 enum GameStatus {
-    WIN, DRAW, ONGOING
+    WIN, DRAW, ONGOING, FORFEIT
 }
