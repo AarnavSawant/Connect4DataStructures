@@ -33,7 +33,6 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         mMouseClickX = mouseEvent.getLocationOnScreen().getX();
-        System.out.println("FUCK SHIIIIIIT");
     }
 
     public double getMouseClickX() {
