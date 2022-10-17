@@ -41,7 +41,7 @@ public class AIPlayer extends Player {
         }
 
         //Use Mini-Max to calculate next move
-        MiniMaxUtils.Node node = MiniMaxUtils.miniMax(mBoard, getColor(), 4, true);
+        MiniMaxUtils.Node node = MiniMaxUtils.miniMax(mBoard, getColor(), 5, true);
         return node.getColumn();
     }
 }
