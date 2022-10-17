@@ -9,14 +9,14 @@ abstract class Player {
     }
 
     public String toString() {
-        return getClass().getName() + "[name: " + name + ", color: " + color + ", numWins: " + numWins + "]";
+        return getClass().getName();
     }
 
     public TokenColor getColor() {
         return color;
     }
 
-    abstract public int chooseColumn();
+    abstract public int chooseColumn() throws FullColumnError;
 
     public int getCurrentColumn() {
         return currentColumn;

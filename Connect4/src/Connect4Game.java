@@ -23,7 +23,7 @@ public class Connect4Game {
     }
 
     public GameStatus playTurn(Player player) throws FullColumnError {
-        board.addPiece(player.chooseColumn(), player);
+        board.addPiece(player.chooseColumn(), player.getColor());
         turns++;
         status = board.checkWinner();
         return status;

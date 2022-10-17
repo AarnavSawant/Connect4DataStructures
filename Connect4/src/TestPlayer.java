@@ -10,6 +10,6 @@ class TestPlayer extends Player{
     }
 
     public int chooseColumn() {
-        return col++;
+        return randomColumn();
     }
 }

@@ -1,3 +1,4 @@
+import acm.graphics.GLabel;
 import acm.graphics.GLine;
 import acm.graphics.GOval;
 import acm.graphics.GRect;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
-    private static int CIRCLE_SIZE = 30;
-    private static int BOARD_X = 100;
+    private static int CIRCLE_SIZE = 25;
+    private static int BOARD_X = 175;
     private static int BOARD_Y = 50;
     private static int BOARD_WIDTH = 15 * CIRCLE_SIZE;
     private static int BOARD_HEIGHT = 13 * CIRCLE_SIZE;
@@ -32,7 +33,7 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        mMouseClickX = mouseEvent.getLocationOnScreen().getX();
+        mMouseClickX = mouseEvent.getX();
     }
 
     public double getMouseClickX() {
@@ -50,8 +51,6 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
         circle.setFillColor(mCurrentPlayer.getColor() == TokenColor.RED ? Color.RED : Color.YELLOW);
         circle.setFilled(true);
         add(circle);
-//        System.out.println(mCurrentPlayer.getColor());
-//        System.out.println(mouseEvent.getLocationOnScreen());
     }
 
     public double getColumnCoordinateFromMouseEvent(double x) {
@@ -65,7 +64,7 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
 
     public int getColumnIndexFromMouseEvent(double x) {
         for (int i = 0; i < mBorderXValues.size(); i++){
-            if (x <= mBorderXValues.get(i)) {
+            if (x  < mBorderXValues.get(i)) {
                 return i;
             }
         }
@@ -75,33 +74,32 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
     @Override
     public void run() {
         HumanPlayer redPlayer = new HumanPlayer(TokenColor.RED, this);
-        TestPlayer yellowPlayer = new TestPlayer(TokenColor.YELLOW);
+//        HumanPlayer yellowPlayer = new HumanPlayer(TokenColor.YELLOW, this);
+//        AIPlayer redPlayer = new AIPlayer(TokenColor.RED);
+        AIPlayer yellowPlayer = new AIPlayer(TokenColor.YELLOW);
         mCurrentPlayer = redPlayer;
         addMouseListeners();
-        mGame = new Connect4Game(redPlayer, yellowPlayer);
+        mGame = new Connect4Game(yellowPlayer, redPlayer);
         GameStatus status = GameStatus.ONGOING;
-
-//        while (status == GameStatus.ONGOING) {
-
-        for (int i = 0; i < 20 && mGame.getStatus() == GameStatus.ONGOING; i++) {
-            mCurrentPlayer = mGame.whoseTurn();
-            System.out.println(mCurrentPlayer.getColor());
+        updateGraphics();
+       while (status == GameStatus.ONGOING) {
+           mCurrentPlayer = mGame.whoseTurn();
+           if (mCurrentPlayer instanceof AIPlayer) {
+               ((AIPlayer) mCurrentPlayer).readCurrentBoard(mGame.getBoard());
+           }
+           updateGraphics();
             try {
-                System.out.println(status);
                 status = mGame.playTurn(mCurrentPlayer);
-                updateGraphics();
             } catch (FullColumnError e) {
                 throw new RuntimeException(e);
             }
         }
-        System.out.println(status);
+       updateGraphics();
         try {
             System.out.println(mGame.getWinner());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-//        }
 
     }
 
@@ -140,6 +138,5 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
             currentY += MARGIN_SCALING_FACTOR * CIRCLE_SIZE;
             currentX = BOARD_X + CIRCLE_SIZE;
         }
-//        System.out.println(mBorderXValues);
     }
 }

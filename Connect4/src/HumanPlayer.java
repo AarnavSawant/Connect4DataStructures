@@ -21,7 +21,6 @@ public class HumanPlayer extends Player {
             }
             column = graphicsProgram.getColumnIndexFromMouseEvent(graphicsProgram.getMouseClickX());
         } while (column == -1 || mouseClickX == -1);
-        System.out.println(column);
         graphicsProgram.resetMouseClickX();
         return column;
     }

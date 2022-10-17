@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
@@ -15,6 +16,10 @@ public class Board {
                 board[i][j] = TokenColor.NONE;
             }
         }
+    }
+
+    public Board(Board b) {
+        this.board = b.getBoard();
     }
 
     public String toString() {
@@ -49,13 +54,13 @@ public class Board {
      * 
      * @throws FullColumnError if the column is already full
      */
-    public void addPiece(int col, Player player) throws FullColumnError {
+    public void addPiece(int col, TokenColor color) throws FullColumnError {
         if (isColumnFull(col)) {
             throw new FullColumnError(col);
         }
         for (int i = HEIGHT - 1; i > -1; i--) {
             if (board[i][col] == TokenColor.NONE) {
-                board[i][col] = player.getColor();
+                board[i][col] = color;
                 return;
             }
         }
@@ -63,6 +68,16 @@ public class Board {
 
     public boolean isColumnFull(int col) {
         return board[0][col] != TokenColor.NONE;
+    }
+
+    public ArrayList<Integer> getPossibleMoves() {
+        ArrayList<Integer> viableColumns = new ArrayList<>();
+        for (int column = 0; column < getNumCols(); column++) {
+            if (!isColumnFull(column)) {
+                viableColumns.add(column);
+            }
+        }
+        return viableColumns;
     }
 
     public boolean isFull() {
@@ -120,6 +135,19 @@ public class Board {
                         && color == board[y + 2][x + 2]
                         && color == board[y + 3][x + 3]) {
                     winningIndices = new int[][] {{y, x}, {y + 1, x + 1}, {y + 2, x + 2}, {y + 3, x + 3}};
+                    winner = color;
+                    return true;
+                }
+            }
+        }
+        for (int x = WIDTH - 1; x > 2; x--) {
+            for (int y = 0; y < HEIGHT - 3; y++) {
+                TokenColor color = board[y][x];
+                if (color != TokenColor.NONE
+                        && color == board[y + 1][x - 1]
+                        && color == board[y + 2][x - 2]
+                        && color == board[y + 3][x - 3]) {
+                    winningIndices = new int[][] {{y, x}, {y + 1, x - 1}, {y + 2, x - 2}, {y + 3, x - 3}};
                     winner = color;
                     return true;
                 }
