@@ -16,10 +16,12 @@ public class Board {
                 board[i][j] = TokenColor.NONE;
             }
         }
+        winningIndices = new int[0][0];
     }
 
     public Board(Board b) {
         this.board = b.getBoard();
+        this.winningIndices = b.getWinningIndices();
     }
 
     public String toString() {

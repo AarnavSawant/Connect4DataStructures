@@ -2,7 +2,7 @@ class TestPlayer extends Player{
     int col = 0;
 
     public TestPlayer(TokenColor color) {
-        super(color);
+        super(color, "Test AI");
     }
 
     private int randomColumn() {

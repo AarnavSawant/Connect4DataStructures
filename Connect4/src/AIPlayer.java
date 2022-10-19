@@ -2,7 +2,7 @@ public class AIPlayer extends Player {
     private Board mBoard;
 
     public AIPlayer(TokenColor color) {
-        super(color);
+        super(color, "AI");
     }
 
     /**

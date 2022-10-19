@@ -3,8 +3,8 @@ import acm.program.GraphicsProgram;
 public class HumanPlayer extends Player {
     private ConnectFourTester_5SinghSawant graphicsProgram;
 
-    public HumanPlayer(TokenColor color, GraphicsProgram graphicsProgram) {
-        super(color);
+    public HumanPlayer(TokenColor color, String name, GraphicsProgram graphicsProgram) {
+        super(color, name);
         this.graphicsProgram = (ConnectFourTester_5SinghSawant) graphicsProgram;
     }
 

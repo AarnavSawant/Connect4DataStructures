@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Connect4Game {
     private Board board;
     private Player[] players;
@@ -33,9 +31,9 @@ public class Connect4Game {
         return status;
     }
 
-    public Player getWinner() throws NoWinnerException{
+    public Player getWinner() {
         if (status == GameStatus.ONGOING) {
-            throw new NoWinnerException();
+            return null;
         }
         if (winner == null) {
             TokenColor color = board.winningColor();
@@ -51,5 +49,15 @@ public class Connect4Game {
 
     public int[][] getWinningIndices() {
         return board.getWinningIndices();
+    }
+
+    public boolean isWinningIndex(int row, int col) {
+        int[][] winningIndices = getWinningIndices();
+        for (int[] indices : winningIndices) {
+            if (indices[0] == row && indices[1] == col) {
+                return true;
+            }
+        }
+        return false;
     }
 }
