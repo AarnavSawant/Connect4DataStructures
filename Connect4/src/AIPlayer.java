@@ -26,13 +26,17 @@ public class AIPlayer extends Player {
             opposingColor = TokenColor.YELLOW;
         }
 
-        //Sanity Check to see if we can win/block on next move
+        //Sanity Check to see if we can win
         for (int col : mBoard.getPossibleMoves()) {
             Board newBoard = new Board(mBoard);
             newBoard.addPiece(col, this.getColor());
             if ((newBoard.checkWinner() == GameStatus.WIN) && (newBoard.winningColor() == this.getColor())) {
                 return col;
             }
+        }
+
+        ///Sanity Check to block on next move
+        for (int col : mBoard.getPossibleMoves()) {
             Board opponentBoard = new Board(mBoard);
             opponentBoard.addPiece(col, opposingColor);
             if ((opponentBoard.checkWinner() == GameStatus.WIN) && (opponentBoard.winningColor() == opposingColor)) {
