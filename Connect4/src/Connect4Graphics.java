@@ -91,7 +91,7 @@ public class Connect4Graphics extends GraphicsProgram {
         double buttonWidth = getWidth() * BUTTON_WIDTH_SCALE;
         double buttonHeight = getHeight() * BUTTON_HEIGHT_SCALE;
         double buttonX = centerWidth(buttonWidth);
-        double buttonY = getHeight() - (centerHeight(BOARD_HEIGHT) + BOARD_HEIGHT) / 2;
+        double buttonY = (centerHeight(BOARD_HEIGHT) - buttonHeight) / 2;
         ReplayButton replayButton = new ReplayButton(this, buttonX, buttonY, buttonWidth, buttonHeight);
         replayButton.initiate();
         while (mGame != null) {
@@ -184,7 +184,8 @@ public class Connect4Graphics extends GraphicsProgram {
 
     private void drawLabel() {
         GLabel label = new GLabel("");
-        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, getHeight() / 10));
+        double fontSize = getHeight() / 10.0;
+        label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, (int) Math.round(fontSize)));
         switch (mGame.getStatus()) {
             case ONGOING:
                 label.setLabel(mCurrentPlayer.getName() + "'s turn");
@@ -199,7 +200,10 @@ public class Connect4Graphics extends GraphicsProgram {
                 label.setColor(Color.WHITE);
                 break;
         }
-        double buttonY = (centerHeight(BOARD_HEIGHT) + BOARD_HEIGHT) + label.getHeight();
+        double lowerBound = centerHeight(BOARD_HEIGHT) + BOARD_HEIGHT;
+        double lowerGap = getHeight() - lowerBound;
+        double yOffset = (lowerGap - fontSize) / 2;
+        double buttonY = getHeight() - yOffset;
         label.setLocation(centerWidth(label.getWidth()), buttonY);
         add(label);
     }
