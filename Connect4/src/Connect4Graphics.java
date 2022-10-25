@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Connect4Graphics extends GraphicsProgram {
     private static final int CIRCLE_SIZE = 25;
     private static final int WIN_CIRCLE_SIZE = (int) (CIRCLE_SIZE * 1.5);
-    private static final int BOARD_Y = 60;
     private static final int BOARD_WIDTH = 15 * CIRCLE_SIZE;
     private static final int BOARD_HEIGHT = 13 * CIRCLE_SIZE;
     private static final Color BOARD_COLOR = Color.BLUE;
@@ -88,10 +87,11 @@ public class Connect4Graphics extends GraphicsProgram {
             }
         }
         updateGraphics();
+
         double buttonWidth = getWidth() * BUTTON_WIDTH_SCALE;
         double buttonHeight = getHeight() * BUTTON_HEIGHT_SCALE;
         double buttonX = centerWidth(buttonWidth);
-        double buttonY = (BOARD_Y - buttonHeight) / 2;
+        double buttonY = getHeight() - (centerHeight(BOARD_HEIGHT) + BOARD_HEIGHT) / 2;
         ReplayButton replayButton = new ReplayButton(this, buttonX, buttonY, buttonWidth, buttonHeight);
         replayButton.initiate();
         while (mGame != null) {
@@ -199,7 +199,8 @@ public class Connect4Graphics extends GraphicsProgram {
                 label.setColor(Color.WHITE);
                 break;
         }
-        label.setLocation(centerWidth(label.getWidth()), getHeight() - label.getHeight() / 2);
+        double buttonY = (centerHeight(BOARD_HEIGHT) + BOARD_HEIGHT) + label.getHeight();
+        label.setLocation(centerWidth(label.getWidth()), buttonY);
         add(label);
     }
     
@@ -263,7 +264,7 @@ public class Connect4Graphics extends GraphicsProgram {
             return;
         }
         double x = getColumnCoordinateFromMouseEvent(mouseEvent.getX());
-        double boardTop = centerHeight(BOARD_HEIGHT) - BOARD_HEIGHT / 2 - CIRCLE_SIZE;
+        double boardTop = centerHeight(BOARD_HEIGHT) - CIRCLE_SIZE;
         GOval circle = new GOval(x, boardTop, CIRCLE_SIZE, CIRCLE_SIZE);
         circle.setFillColor(mCurrentPlayer.getAWTColor());
         circle.setFilled(true);
