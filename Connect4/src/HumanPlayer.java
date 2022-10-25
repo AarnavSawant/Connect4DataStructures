@@ -1,11 +1,11 @@
 import acm.program.GraphicsProgram;
 
 public class HumanPlayer extends Player {
-    private ConnectFourTester_5SinghSawant graphicsProgram;
+    private Connect4Graphics graphicsProgram;
 
     public HumanPlayer(TokenColor color, String name, GraphicsProgram graphicsProgram) {
         super(color, name);
-        this.graphicsProgram = (ConnectFourTester_5SinghSawant) graphicsProgram;
+        this.graphicsProgram = (Connect4Graphics) graphicsProgram;
     }
 
 

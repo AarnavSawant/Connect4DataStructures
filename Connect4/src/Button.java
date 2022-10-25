@@ -10,11 +10,11 @@ abstract class Button extends GRoundRect {
     private static final Color COLOR = Color.WHITE;
     private static final Color COLOR_HOVER = Color.GRAY;
     private static final Color COLOR_CLICK = Color.DARK_GRAY;
-    private ConnectFourTester_5SinghSawant graphicsProgram;
+    private Connect4Graphics graphicsProgram;
 
     private GLabel label;
 
-    public Button(ConnectFourTester_5SinghSawant graphicsProgram, double x, double y, double width, double height,
+    public Button(Connect4Graphics graphicsProgram, double x, double y, double width, double height,
             double cornerRadius, String text) {
         super(x, y, width, height, cornerRadius, cornerRadius);
         this.graphicsProgram = graphicsProgram;
@@ -37,7 +37,7 @@ abstract class Button extends GRoundRect {
         graphicsProgram.add(label);
     }
 
-    public ConnectFourTester_5SinghSawant getGraphicsProgram() {
+    public Connect4Graphics getGraphicsProgram() {
         return graphicsProgram;
     }
 

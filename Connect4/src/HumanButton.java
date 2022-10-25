@@ -1,8 +1,8 @@
 import java.awt.event.MouseEvent;
 
 public class HumanButton extends Button {
-    public HumanButton(ConnectFourTester_5SinghSawant graphicsProgram, double x, double y, double w, double h) {
-        super(graphicsProgram, x, y, w, h, ConnectFourTester_5SinghSawant.MENU_CORNER, "Human vs. Human");
+    public HumanButton(Connect4Graphics graphicsProgram, double x, double y, double w, double h) {
+        super(graphicsProgram, x, y, w, h, Connect4Graphics.MENU_CORNER, "Human vs. Human");
     }
 
     @Override

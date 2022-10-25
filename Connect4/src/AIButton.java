@@ -1,8 +1,8 @@
 import java.awt.event.MouseEvent;
 
 public class AIButton extends Button {
-    public AIButton(ConnectFourTester_5SinghSawant graphicsProgram, double x, double y, double w, double h) {
-        super(graphicsProgram, x, y, w, h, ConnectFourTester_5SinghSawant.MENU_CORNER, "Human vs. AI");
+    public AIButton(Connect4Graphics graphicsProgram, double x, double y, double w, double h) {
+        super(graphicsProgram, x, y, w, h, Connect4Graphics.MENU_CORNER, "Human vs. AI");
     }
 
     @Override
