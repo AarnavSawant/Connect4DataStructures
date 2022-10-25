@@ -12,8 +12,7 @@ import java.util.ArrayList;
 public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
     private static final int CIRCLE_SIZE = 25;
     private static final int WIN_CIRCLE_SIZE = (int) (CIRCLE_SIZE * 1.5);
-    private static final int BOARD_X = 175;
-    private static final int BOARD_Y = 50;
+    private static final int BOARD_Y = 60;
     private static final int BOARD_WIDTH = 15 * CIRCLE_SIZE;
     private static final int BOARD_HEIGHT = 13 * CIRCLE_SIZE;
     private static final Color BOARD_COLOR = Color.BLUE;
@@ -41,49 +40,15 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
     }
 
     @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
-        mMouseClickX = mouseEvent.getX();
-    }
-
-    public double getMouseClickX() {
-        return mMouseClickX;
-    }
-
-    public void resetMouseClickX() {
-        mMouseClickX = -1;
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent mouseEvent) {
-        updateGraphics();
-        if (mCurrentPlayer instanceof HumanPlayer) {
-            GOval circle = new GOval(getColumnCoordinateFromMouseEvent(mouseEvent.getX()), BOARD_Y - CIRCLE_SIZE,
-                    CIRCLE_SIZE, CIRCLE_SIZE);
-            circle.setFillColor(mCurrentPlayer.getAWTColor());
-            circle.setFilled(true);
-            add(circle);
-        }
-    }
-
-    public double getColumnCoordinateFromMouseEvent(double x) {
-        for (Double d : mBorderXValues) {
-            if (x <= d) {
-                return d - BORDER_SCALING_FACTOR * CIRCLE_SIZE;
-            }
-        }
-        return mBorderXValues.get(mBorderXValues.size() - 1) - BORDER_SCALING_FACTOR * CIRCLE_SIZE;
-    }
-
-    public int getColumnIndexFromMouseEvent(double x) {
-        for (int i = 0; i < mBorderXValues.size(); i++) {
-            if (x < mBorderXValues.get(i)) {
-                return i;
-            }
-        }
-        return mBorderXValues.size() - 1;
+    public void run() {
+        startGame();
     }
 
     public void startGame() {
+        drawMenu();
+        while (gameMode == null) {
+            pause(1);
+        }
         Player redPlayer;
         Player yellowPlayer;
         switch (gameMode) {
@@ -113,6 +78,7 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
         mGame = new Connect4Game(redPlayer, yellowPlayer);
         GameStatus status = mGame.getStatus();
         updateGraphics();
+        resetMouseClickX();
         while (status == GameStatus.ONGOING) {
             mCurrentPlayer = mGame.whoseTurn();
             if (mCurrentPlayer instanceof AIPlayer) {
@@ -126,41 +92,20 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
             }
         }
         updateGraphics();
-        try {
-            System.out.println(mGame.getWinner());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void run() {
-        drawMenu();
-        while (gameMode == null) {
+        double buttonWidth = getWidth() * BUTTON_WIDTH_SCALE;
+        double buttonHeight = getHeight() * BUTTON_HEIGHT_SCALE;
+        double buttonX = centerWidth(buttonWidth);
+        double buttonY = (BOARD_Y - buttonHeight) / 2;
+        ReplayButton replayButton = new ReplayButton(this, buttonX, buttonY, buttonWidth, buttonHeight);
+        replayButton.initiate();
+        while (mGame != null) {
             pause(1);
         }
         startGame();
-        // HumanPlayer redPlayer = new HumanPlayer(TokenColor.RED, "Player 1", this);
-        // HumanPlayer yellowPlayer = new HumanPlayer(TokenColor.YELLOW, "Player 2",
-        // this);
-        // AIPlayer redPlayer = new AIPlayer(TokenColor.RED);
-        // AIPlayer yellowPlayer = new AIPlayer(TokenColor.YELLOW);
-        // playGame(redPlayer, yellowPlayer);
-    }
-
-    private double centerWidth(double width) {
-        return (getWidth() - width) / 2;
-    }
-
-    private double centerHeight(double height) {
-        return (getHeight() - height) / 2;
-    }
-
-    public void setGameMode(GameMode gameMode) {
-        this.gameMode = gameMode;
     }
 
     private void drawMenu() {
+        removeAll();
         setBackground(BACKGROUND_COLOR);
 
         double menuWidth = getWidth() - MENU_OFFSET;
@@ -199,12 +144,13 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
     }
 
     private void drawBoard() {
-        GRect board = new GRect(BOARD_X, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT);
+        double boardX = centerWidth(BOARD_WIDTH);
+        GRect board = new GRect(boardX, BOARD_Y, BOARD_WIDTH, BOARD_HEIGHT);
         board.setFillColor(BOARD_COLOR);
         board.setFilled(true);
         add(board);
-        int currentX = BOARD_X + CIRCLE_SIZE;
-        int currentY = BOARD_Y + CIRCLE_SIZE;
+        double currentX = boardX + CIRCLE_SIZE;
+        double currentY = BOARD_Y + CIRCLE_SIZE;
         for (int i = 0; i < mGame.getBoard().getNumRows(); i += 1) {
             for (int j = 0; j < mGame.getBoard().getNumCols(); j += 1) {
                 if (mBorderXValues.size() < mGame.getBoard().getNumCols()) {
@@ -220,19 +166,23 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
                 circle.setFilled(true);
 
                 if (mGame.isWinningIndex(i, j)) {
-                    double coordOffset = (WIN_CIRCLE_SIZE - CIRCLE_SIZE) / 2;
-                    GOval borderCircle = new GOval(currentX - coordOffset, currentY - coordOffset, WIN_CIRCLE_SIZE,
-                            WIN_CIRCLE_SIZE);
-                    borderCircle.setFillColor(WIN_COLOR);
-                    borderCircle.setFilled(true);
-                    add(borderCircle);
+                    drawWinToken(currentX, currentY);
                 }
                 add(circle);
                 currentX += MARGIN_SCALING_FACTOR * CIRCLE_SIZE;
             }
             currentY += MARGIN_SCALING_FACTOR * CIRCLE_SIZE;
-            currentX = BOARD_X + CIRCLE_SIZE;
+            currentX = boardX + CIRCLE_SIZE;
         }
+    }
+
+    private void drawWinToken(double x, double y) {
+        double offset = (WIN_CIRCLE_SIZE - CIRCLE_SIZE) / 2;
+        GOval borderCircle = new GOval(x - offset, y - offset, WIN_CIRCLE_SIZE, WIN_CIRCLE_SIZE);
+        borderCircle.setColor(WIN_COLOR);
+        borderCircle.setFillColor(WIN_COLOR);
+        borderCircle.setFilled(true);
+        add(borderCircle);
     }
 
     private void drawLabel() {
@@ -255,14 +205,86 @@ public class ConnectFourTester_5SinghSawant extends GraphicsProgram {
         label.setLocation(centerWidth(label.getWidth()), getHeight() - label.getHeight() / 2);
         add(label);
     }
+    
+    private double centerWidth(double width) {
+        return (getWidth() - width) / 2;
+    }
+
+    private double centerHeight(double height) {
+        return (getHeight() - height) / 2;
+    }
+
+    public Connect4Game getGame() {
+        return mGame;
+    }
+
+    public void resetGame() {
+        mGame = null;
+        gameMode = null;
+        mCurrentPlayer = null;
+        mMouseClickX = -1;
+    }
+
+    public void setGameMode(GameMode gameMode) {
+        this.gameMode = gameMode;
+    }
 
     private void updateGraphics() {
-        removeAll();
-        removeAll();
-        removeAll();
         removeAll();
         setBackground(BACKGROUND_COLOR);
         drawBoard();
         drawLabel();
+    }
+
+    /* mouse tracking & graphics handling */
+    @Override
+    public void mouseClicked(MouseEvent mouseEvent) {
+        mMouseClickX = mouseEvent.getX();
+    }
+
+    public double getMouseClickX() {
+        return mMouseClickX;
+    }
+
+    public void resetMouseClickX() {
+        mMouseClickX = -1;
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent mouseEvent) {
+        if (mGame == null || mGame.getStatus() != GameStatus.ONGOING) {
+            return;
+        }
+        updateGraphics();
+        if (!(mCurrentPlayer instanceof HumanPlayer)) {
+            return;
+        }
+        int column = getColumnIndexFromMouseEvent(mouseEvent.getX());
+        if (mGame.getBoard().isColumnFull(column)) {
+            return;
+        }
+        double x = getColumnCoordinateFromMouseEvent(mouseEvent.getX());
+        GOval circle = new GOval(x, BOARD_Y - CIRCLE_SIZE, CIRCLE_SIZE, CIRCLE_SIZE);
+        circle.setFillColor(mCurrentPlayer.getAWTColor());
+        circle.setFilled(true);
+        add(circle);
+    }
+
+    public double getColumnCoordinateFromMouseEvent(double x) {
+        for (Double d : mBorderXValues) {
+            if (x <= d) {
+                return d - BORDER_SCALING_FACTOR * CIRCLE_SIZE;
+            }
+        }
+        return mBorderXValues.get(mBorderXValues.size() - 1) - BORDER_SCALING_FACTOR * CIRCLE_SIZE;
+    }
+
+    public int getColumnIndexFromMouseEvent(double x) {
+        for (int i = 0; i < mBorderXValues.size(); i++) {
+            if (x < mBorderXValues.get(i)) {
+                return i;
+            }
+        }
+        return mBorderXValues.size() - 1;
     }
 }

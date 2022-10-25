@@ -17,6 +17,9 @@ public class HumanPlayer extends Player {
             graphicsProgram.pause(1);
             column = graphicsProgram.getColumnIndexFromMouseEvent(graphicsProgram.getMouseClickX());
         } while (column == -1 || mouseClickX == -1);
+        if (graphicsProgram.getGame().getBoard().isColumnFull(column)) {
+            return chooseColumn();
+        }
         graphicsProgram.resetMouseClickX();
         return column;
     }
