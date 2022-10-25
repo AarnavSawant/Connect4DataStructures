@@ -51,7 +51,7 @@ public class Board {
     /**
      * Drop a player's chip into a certain column, at the lowest possible slot.
      *
-     * @param col index of column to drop piece into
+     * @param col    index of column to drop piece into
      * @param player Player object representing the player dropping the piece
      * 
      * @throws FullColumnError if the column is already full
@@ -102,7 +102,7 @@ public class Board {
                         && color == row[x + 1]
                         && color == row[x + 2]
                         && color == row[x + 3]) {
-                    winningIndices = new int[][] {{y, x}, {y, x + 1}, {y, x + 2}, {y, x + 3}};
+                    winningIndices = new int[][] { { y, x }, { y, x + 1 }, { y, x + 2 }, { y, x + 3 } };
                     winner = color;
                     return true;
                 }
@@ -119,7 +119,7 @@ public class Board {
                         && color == board[y + 1][x]
                         && color == board[y + 2][x]
                         && color == board[y + 3][x]) {
-                    winningIndices = new int[][] {{y, x}, {y + 1, x}, {y + 2, x}, {y + 3, x}};
+                    winningIndices = new int[][] { { y, x }, { y + 1, x }, { y + 2, x }, { y + 3, x } };
                     winner = color;
                     return true;
                 }
@@ -136,7 +136,7 @@ public class Board {
                         && color == board[y + 1][x + 1]
                         && color == board[y + 2][x + 2]
                         && color == board[y + 3][x + 3]) {
-                    winningIndices = new int[][] {{y, x}, {y + 1, x + 1}, {y + 2, x + 2}, {y + 3, x + 3}};
+                    winningIndices = new int[][] { { y, x }, { y + 1, x + 1 }, { y + 2, x + 2 }, { y + 3, x + 3 } };
                     winner = color;
                     return true;
                 }
@@ -149,7 +149,7 @@ public class Board {
                         && color == board[y + 1][x - 1]
                         && color == board[y + 2][x - 2]
                         && color == board[y + 3][x - 3]) {
-                    winningIndices = new int[][] {{y, x}, {y + 1, x - 1}, {y + 2, x - 2}, {y + 3, x - 3}};
+                    winningIndices = new int[][] { { y, x }, { y + 1, x - 1 }, { y + 2, x - 2 }, { y + 3, x - 3 } };
                     winner = color;
                     return true;
                 }

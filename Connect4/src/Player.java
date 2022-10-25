@@ -25,7 +25,7 @@ abstract class Player {
     }
 
     public Color getAWTColor() {
-        return color == TokenColor.RED ? Color.RED : Color.YELLOW;
+        return color.getColor();
     }
 
     abstract public int chooseColumn() throws FullColumnError;
