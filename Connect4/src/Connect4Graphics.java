@@ -39,6 +39,10 @@ public class Connect4Graphics extends GraphicsProgram {
         startGame();
     }
 
+    /**
+     * Draws the start screen and waits for the user to click a button. 
+     * Then initiates the game based on which gamemode the user selected.
+     */
     public void startGame() {
         drawMenu();
         while (gameMode == null) {
@@ -67,6 +71,13 @@ public class Connect4Graphics extends GraphicsProgram {
         playGame(redPlayer, yellowPlayer);
     }
 
+    /**
+     * Initiates the Connect4Game and plays turn-by-turn until a player wins or the game ends.
+     * Once the game ends, it displays the winner and a replay button, which calls startGame() again.
+     * 
+     * @param redPlayer The red player
+     * @param yellowPlayer The yellow player
+     */
     private void playGame(Player redPlayer, Player yellowPlayer) {
         mCurrentPlayer = redPlayer;
         addMouseListeners();
@@ -100,6 +111,9 @@ public class Connect4Graphics extends GraphicsProgram {
         startGame();
     }
 
+    /**
+     * Draws the start screen of the game, with buttons to play against another human or AI.
+     */
     private void drawMenu() {
         removeAll();
         setBackground(BACKGROUND_COLOR);
@@ -139,6 +153,10 @@ public class Connect4Graphics extends GraphicsProgram {
         aiButton.initiate();
     }
 
+    /**
+     * Draws the game board and played tokens. If the game has been won, 
+     * it outlines the winning tokens with a green border.
+     */
     private void drawBoard() {
         double boardX = centerWidth(BOARD_WIDTH);
         double boardY = centerHeight(BOARD_HEIGHT);
@@ -173,6 +191,12 @@ public class Connect4Graphics extends GraphicsProgram {
         }
     }
 
+    /**
+     * Helper method for drawing a green border around a winning token.
+     * 
+     * @param x The x-coordinate of the token
+     * @param y The y-coordinate of the token
+     */
     private void drawWinToken(double x, double y) {
         double offset = (WIN_CIRCLE_SIZE - CIRCLE_SIZE) / 2;
         GOval borderCircle = new GOval(x - offset, y - offset, WIN_CIRCLE_SIZE, WIN_CIRCLE_SIZE);
@@ -182,6 +206,11 @@ public class Connect4Graphics extends GraphicsProgram {
         add(borderCircle);
     }
 
+    /**
+     * Method for drawing the game label, which either displays the current player's turn
+     * or signals whether the game has been won or come to a draw. The label changes color 
+     * based on the current player's turn.
+     */
     private void drawLabel() {
         GLabel label = new GLabel("");
         double fontSize = getHeight() / 10.0;
@@ -208,10 +237,24 @@ public class Connect4Graphics extends GraphicsProgram {
         add(label);
     }
     
+    /**
+     * Returns the x-coordinate of an object centered horizontally.
+     * 
+     * @param width the width of the object
+     * 
+     * @return the centered x-coordinate of the object relative to the window
+     */
     private double centerWidth(double width) {
         return (getWidth() - width) / 2;
     }
 
+    /**
+     * Returns the y-coordinate of an object centered vertically.
+     * 
+     * @param height the height of the object
+     * 
+     * @return the centered y-coordinate of the object relative to the window
+     */
     private double centerHeight(double height) {
         return (getHeight() - height) / 2;
     }
@@ -220,6 +263,9 @@ public class Connect4Graphics extends GraphicsProgram {
         return mGame;
     }
 
+    /**
+     * Resets instance variables before beginning a new game.
+     */
     public void resetGame() {
         mGame = null;
         gameMode = null;
@@ -231,6 +277,9 @@ public class Connect4Graphics extends GraphicsProgram {
         this.gameMode = gameMode;
     }
 
+    /**
+     * Clears and redraws the game board.
+     */
     private void updateGraphics() {
         removeAll();
         setBackground(BACKGROUND_COLOR);
