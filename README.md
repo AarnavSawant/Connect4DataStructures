@@ -7,8 +7,9 @@ First, install all requirements listed on [Requirements](#Requirements). Then
 add "acm.jar" as a dependency for your project in your preferred IDE, following
 the IDE's instructions for adding referenced Java libraries.
 
-After installing the requirements, open `Connect4DataStructures/Connect4/src/ConnectFourTester_5SinghSawant.java`
-in your preferred IDE and run the file.
+After installing the requirements, open the `Connect4DataStructures` directory
+as a workspace in your preferred IDE and then run the
+`Connect4DataStructures/Connect4/src/ConnectFourTester_5SinghSawant.java` file.
 
 # Demo of AI
 ![GIF of Connect4 game being played](demo.gif)
