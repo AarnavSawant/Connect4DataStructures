@@ -9,6 +9,10 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+/**
+ * Graphics wrapper for Connect4Game that displays all GUI components
+ * to the user.
+ */
 public class Connect4Graphics extends GraphicsProgram {
     private static final int CIRCLE_SIZE = 25;
     private static final int WIN_CIRCLE_SIZE = (int) (CIRCLE_SIZE * 1.5);
@@ -18,6 +22,8 @@ public class Connect4Graphics extends GraphicsProgram {
 
     private static final int MENU_OFFSET = 100;
     public static final int MENU_CORNER = 25;
+    private static final double MENU_FONT_SCALE = 0.1;
+    private static final double MENU_4_SCALE = 1.5;
     private static final double BUTTON_WIDTH_SCALE = 0.45;
     private static final double BUTTON_HEIGHT_SCALE = 0.1;
 
@@ -40,7 +46,7 @@ public class Connect4Graphics extends GraphicsProgram {
     }
 
     /**
-     * Draws the start screen and waits for the user to click a button. 
+     * Draws the start screen and waits for the user to click a button.
      * Then initiates the game based on which gamemode the user selected.
      */
     public void startGame() {
@@ -72,10 +78,12 @@ public class Connect4Graphics extends GraphicsProgram {
     }
 
     /**
-     * Initiates the Connect4Game and plays turn-by-turn until a player wins or the game ends.
-     * Once the game ends, it displays the winner and a replay button, which calls startGame() again.
+     * Initiates the Connect4Game and plays turn-by-turn until a player wins or the
+     * game ends.
+     * Once the game ends, it displays the winner and a replay button, which calls
+     * startGame() again.
      * 
-     * @param redPlayer The red player
+     * @param redPlayer    The red player
      * @param yellowPlayer The yellow player
      */
     private void playGame(Player redPlayer, Player yellowPlayer) {
@@ -112,7 +120,8 @@ public class Connect4Graphics extends GraphicsProgram {
     }
 
     /**
-     * Draws the start screen of the game, with buttons to play against another human or AI.
+     * Draws the start screen of the game, with buttons to play against another
+     * human or AI.
      */
     private void drawMenu() {
         removeAll();
@@ -126,11 +135,11 @@ public class Connect4Graphics extends GraphicsProgram {
         menu.setFilled(true);
         add(menu);
 
-        Font font = new Font(Font.SANS_SERIF, Font.BOLD, getHeight() / 10);
+        Font font = new Font(Font.SANS_SERIF, Font.BOLD, (int) (getHeight() * MENU_FONT_SCALE));
         GLabel label = new GLabel("CONNECT");
         label.setFont(font);
         label.setColor(Color.WHITE);
-        Font font4 = new Font(font.getFontName(), font.getStyle(), (int) (font.getSize() * 1.5));
+        Font font4 = new Font(font.getFontName(), font.getStyle(), (int) (font.getSize() * MENU_4_SCALE));
         GLabel label4 = new GLabel("4");
         label4.setFont(font4);
         label4.setColor(Color.RED);
@@ -154,7 +163,7 @@ public class Connect4Graphics extends GraphicsProgram {
     }
 
     /**
-     * Draws the game board and played tokens. If the game has been won, 
+     * Draws the game board and played tokens. If the game has been won,
      * it outlines the winning tokens with a green border.
      */
     private void drawBoard() {
@@ -207,8 +216,10 @@ public class Connect4Graphics extends GraphicsProgram {
     }
 
     /**
-     * Method for drawing the game label, which either displays the current player's turn
-     * or signals whether the game has been won or come to a draw. The label changes color 
+     * Method for drawing the game label, which either displays the current player's
+     * turn
+     * or signals whether the game has been won or come to a draw. The label changes
+     * color
      * based on the current player's turn.
      */
     private void drawLabel() {
@@ -220,7 +231,7 @@ public class Connect4Graphics extends GraphicsProgram {
                 label.setLabel(mCurrentPlayer.getName() + "'s turn");
                 label.setColor(mCurrentPlayer.getAWTColor());
                 break;
-            case WIN, FORFEIT:
+            case WIN:
                 label.setLabel(mGame.getWinner().getName() + " wins!");
                 label.setColor(mGame.getWinner().getAWTColor());
                 break;
@@ -236,7 +247,7 @@ public class Connect4Graphics extends GraphicsProgram {
         label.setLocation(centerWidth(label.getWidth()), buttonY);
         add(label);
     }
-    
+
     /**
      * Returns the x-coordinate of an object centered horizontally.
      * 
@@ -273,6 +284,11 @@ public class Connect4Graphics extends GraphicsProgram {
         mMouseClickX = -1;
     }
 
+    /**
+     * Sets the player game mode.
+     * 
+     * @param gameMode GameMode
+     */
     public void setGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
     }
@@ -295,14 +311,26 @@ public class Connect4Graphics extends GraphicsProgram {
         }
     }
 
+    /**
+     * Returns the x-coordinate of the last mouse click.
+     * 
+     * @return the x-coordinate of the last mouse click
+     */
     public double getMouseClickX() {
         return mMouseClickX;
     }
 
+    /**
+     * Resets the mouse click x-coordinate.
+     */
     public void resetMouseClickX() {
         mMouseClickX = -1;
     }
 
+    /**
+     * Tracks the mouse movement and moves the current player's selection token
+     * accordingly.
+     */
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
         if (mGame == null || mGame.getStatus() != GameStatus.ONGOING) {
@@ -324,6 +352,13 @@ public class Connect4Graphics extends GraphicsProgram {
         add(circle);
     }
 
+    /**
+     * Helper method to determine the column x-cordinate from a mouse event's
+     * x-coordinate.
+     * 
+     * @param x the x-coordinate of the mouse event
+     * @return the x-coordinate of the column
+     */
     public double getColumnCoordinateFromMouseEvent(double x) {
         for (Double d : mBorderXValues) {
             if (x <= d) {
@@ -333,6 +368,13 @@ public class Connect4Graphics extends GraphicsProgram {
         return mBorderXValues.get(mBorderXValues.size() - 1) - BORDER_SCALING_FACTOR * CIRCLE_SIZE;
     }
 
+    /**
+     * Helper method to determine the column index from a mouse event's
+     * x-coordinate.
+     * 
+     * @param x the x-coordinate of the mouse event
+     * @return the closest column's index
+     */
     public int getColumnIndexFromMouseEvent(double x) {
         for (int i = 0; i < mBorderXValues.size(); i++) {
             if (x < mBorderXValues.get(i)) {

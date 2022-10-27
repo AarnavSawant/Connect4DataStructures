@@ -1,3 +1,6 @@
+/**
+ * Player subclass that uses a minimax algorithm to determine the best move.
+ */
 public class AIPlayer extends Player {
     private Board mBoard;
 

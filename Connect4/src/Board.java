@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Represents a Connect4 board using a 2D array.
+ * Implements helper methods for determining if a player has won.
+ */
 public class Board {
     public static final int WIDTH = 7;
     public static final int HEIGHT = 6;
@@ -9,6 +13,9 @@ public class Board {
     private int[][] winningIndices;
     private TokenColor winner;
 
+    /**
+     * Initializes a new board using constant class variables WIDTH and HEIGHT.
+     */
     public Board() {
         board = new TokenColor[HEIGHT][WIDTH];
         for (int i = 0; i < HEIGHT; i++) {
@@ -19,11 +26,21 @@ public class Board {
         winningIndices = new int[0][0];
     }
 
+    /**
+     * Returns a deep copy of a given Board.
+     * 
+     * @param b the Board to copy
+     */
     public Board(Board b) {
         this.board = b.getBoard();
         this.winningIndices = b.getWinningIndices();
+        this.winner = b.winningColor();
     }
 
+    /**
+     * Returns a string representation of the Board.
+     * Mainly used for debugging purposes.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (TokenColor[] row : board) {
@@ -68,10 +85,22 @@ public class Board {
         }
     }
 
+    /**
+     * Check if a column is full.
+     * 
+     * @param col index of column to check
+     * 
+     * @return true if the column is full, false otherwise
+     */
     public boolean isColumnFull(int col) {
         return board[0][col] != TokenColor.NONE;
     }
 
+    /**
+     * Retrieve an ArrayList of non-full columns.
+     * 
+     * @return ArrayList<Integer> all non-full columns
+     */
     public ArrayList<Integer> getPossibleMoves() {
         ArrayList<Integer> viableColumns = new ArrayList<>();
         for (int column = 0; column < getNumCols(); column++) {
@@ -82,6 +111,11 @@ public class Board {
         return viableColumns;
     }
 
+    /**
+     * Check if the entire board is full.
+     * 
+     * @return true if the board is full, false otherwise
+     */
     public boolean isFull() {
         for (TokenColor[] row : board) {
             for (TokenColor col : row) {
@@ -93,6 +127,11 @@ public class Board {
         return true;
     }
 
+    /**
+     * Check if a player has won the game by 4 in a row horizontally.
+     * 
+     * @returns true if a player has won, false otherwise
+     */
     private boolean checkHorizontalWin() {
         for (int x = 0; x < WIDTH - 3; x++) {
             for (int y = 0; y < HEIGHT; y++) {
@@ -111,6 +150,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Check if a player has won the game by 4 in a row vertically.
+     * 
+     * @returns true if a player has won, false otherwise
+     */
     private boolean checkVerticalWin() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT - 3; y++) {
@@ -128,6 +172,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Check if a player has won the game by 4 in a row diagonally.
+     * 
+     * @returns true if a player has won, false otherwise
+     */
     private boolean checkDiagonalWin() {
         for (int x = 0; x < WIDTH - 3; x++) {
             for (int y = 0; y < HEIGHT - 3; y++) {
@@ -158,6 +207,11 @@ public class Board {
         return false;
     }
 
+    /**
+     * Check if a player has won the game.
+     * 
+     * @returns GameStatus representing whether the game is ongoing, a player has won, or all columns are full
+     */
     public GameStatus checkWinner() {
         if (checkHorizontalWin() || checkVerticalWin() || checkDiagonalWin()) {
             return GameStatus.WIN;
@@ -168,18 +222,38 @@ public class Board {
         return GameStatus.ONGOING;
     }
 
+    /**
+     * Retrieve the winning token color.
+     * 
+     * @return TokenColor of the winning player
+     */
     public TokenColor winningColor() {
         return winner;
     }
 
+    /**
+     * Retrieve the indices of the winning tokens.
+     * 
+     * @return int[][] of the winning tokens
+     */
     public int[][] getWinningIndices() {
         return winningIndices;
     }
 
+    /**
+     * Retrieve the number of rows in the board.
+     * 
+     * @return int number of rows
+     */
     public int getNumRows() {
         return board.length;
     }
 
+    /**
+     * Retrieve the number of columns in the board.
+     * 
+     * @return int number of columns
+     */
     public int getNumCols() {
         return board[0].length;
     }

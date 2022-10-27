@@ -1,3 +1,6 @@
+/**
+ * A developer-only testing class.
+ */
 class TestPlayer extends Player{
     int col = 0;
 
