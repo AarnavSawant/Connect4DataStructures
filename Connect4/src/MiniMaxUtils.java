@@ -46,8 +46,8 @@ public class MiniMaxUtils {
         }
 
         // For Optimizing Positive Diagonal Slope
-        for (int col = 0; col < board.getNumCols() - 3; col++) {
-            for (int row = 0; row < board.getNumRows() - 3; row++) {
+        for (int col = 0; col < board.getNumCols() - WINDOW_SIZE + 1; col++) {
+            for (int row = 0; row < board.getNumRows() - WINDOW_SIZE + 1; row++) {
                 ArrayList<TokenColor> window = new ArrayList<>();
                 for (int i = 0; i < WINDOW_SIZE; i++) {
                     window.add(board.getBoard()[row + i][col + i]);
@@ -58,7 +58,7 @@ public class MiniMaxUtils {
 
         // For Optimizing Negative Diagonal Slope
         for (int col = board.getNumCols() - 1; col > 2; col--) {
-            for (int row = 0; row < board.getNumRows() - 3; row++) {
+            for (int row = 0; row < board.getNumRows() - WINDOW_SIZE + 1; row++) {
                 ArrayList<TokenColor> window = new ArrayList<>();
                 for (int i = 0; i < WINDOW_SIZE; i++) {
                     window.add(board.getBoard()[row + i][col - i]);
